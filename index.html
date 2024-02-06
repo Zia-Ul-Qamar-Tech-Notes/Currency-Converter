@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter</title>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #f4e4ba;
+      }
+      .container{
+        background-color: white;
+        padding: 2rem;
+        border: 1px solid black;
+        border-radius: 1rem;
+      }
+      form{
+        margin: 2rem 0rem 1rem 0rem;
+      }
+      form select,input,button{
+        width: 100%;
+        border-radius: 2rem;
+        border: none;
+        outline: none;
+        border: none;
+      }
+      form input{
+        padding: 0.5rem;
+        border: 1px solid lightgray;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      form p{
+        font-size: 18px;
+        font-weight: bold;
+        color: rgba(132, 73, 188, 0.861);
+      }
+      .dropdown{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 5px;
+        padding: 3px;
+      }
+      form h3{
+        text-align: center;
+        padding: 1rem;
+      }
+      .select-container img{
+        width: 1.5rem;
+      }
+      .select-container{
+        display: flex;
+        width: 6rem;
+        margin: 10px;
+        padding: 5px
+      }
+
+      form button{
+        background-color: rgba(132, 73, 188, 0.861);
+        width: 100%;
+        height: 2rem;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      form button:hover{
+        background-color: rgba(73, 188, 79, 0.861);
+        width: 100%;
+        height: 2rem;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h2>Zia Currency Converter Project</h2>
+      <form action="">
+        <div class="amount">
+          <p>Amount</p>
+          <input type="number" placeholder="Amount in Your Currency" />
+        </div>
+        <div class="dropdown">
+          <div class="from">
+            <p>From</p>
+            <div class="select-container">
+              <img
+                src="https://flagsapi.com/US/flat/64.png"
+                alt="Country's Flag"
+              />
+              <select name="from" id="from">
+              </select>
+            </div>
+          </div>
+          <i class="fa-solid fa-arrow-right-arrow-left"></i>
+          <div class="to">
+            <p>To</p>
+            <div class="select-container">
+              <img
+                src="https://flagsapi.com/PK/flat/64.png"
+                alt="Country's Flag"
+              />
+              <select name="to" id="to">
+              </select>
+            </div>
+          </div>
+        </div>
+        <h3 id="result">1 USD = 280 PKR</h3>
+        <h3 id="result1">Exchange Rate: </h3>
+        <button>Get Exchange Rate</button>
+      </form>
+    </div>
+    <script>
+      const countryList = {
+        AED: "AE",
+        AFN: "AF",
+        XCD: "AG",
+        ALL: "AL",
+        AMD: "AM",
+        ANG: "AN",
+        AOA: "AO",
+        AQD: "AQ",
+        ARS: "AR",
+        AUD: "AU",
+        AZN: "AZ",
+        BAM: "BA",
+        BBD: "BB",
+        BDT: "BD",
+        XOF: "BE",
+        BGN: "BG",
+        BHD: "BH",
+        BIF: "BI",
+        BMD: "BM",
+        BND: "BN",
+        BOB: "BO",
+        BRL: "BR",
+        BSD: "BS",
+        NOK: "BV",
+        BWP: "BW",
+        BYR: "BY",
+        BZD: "BZ",
+        CAD: "CA",
+        CDF: "CD",
+        XAF: "CF",
+        CHF: "CH",
+        CLP: "CL",
+        CNY: "CN",
+        COP: "CO",
+        CRC: "CR",
+        CUP: "CU",
+        CVE: "CV",
+        CYP: "CY",
+        CZK: "CZ",
+        DJF: "DJ",
+        DKK: "DK",
+        DOP: "DO",
+        DZD: "DZ",
+        ECS: "EC",
+        EEK: "EE",
+        EGP: "EG",
+        ETB: "ET",
+        EUR: "FR",
+        FJD: "FJ",
+        FKP: "FK",
+        GBP: "GB",
+        GEL: "GE",
+        GGP: "GG",
+        GHS: "GH",
+        GIP: "GI",
+        GMD: "GM",
+        GNF: "GN",
+        GTQ: "GT",
+        GYD: "GY",
+        HKD: "HK",
+        HNL: "HN",
+        HRK: "HR",
+        HTG: "HT",
+        HUF: "HU",
+        IDR: "ID",
+        ILS: "IL",
+        INR: "IN",
+        IQD: "IQ",
+        IRR: "IR",
+        ISK: "IS",
+        JMD: "JM",
+        JOD: "JO",
+        JPY: "JP",
+        KES: "KE",
+        KGS: "KG",
+        KHR: "KH",
+        KMF: "KM",
+        KPW: "KP",
+        KRW: "KR",
+        KWD: "KW",
+        KYD: "KY",
+        KZT: "KZ",
+        LAK: "LA",
+        LBP: "LB",
+        LKR: "LK",
+        LRD: "LR",
+        LSL: "LS",
+        LTL: "LT",
+        LVL: "LV",
+        LYD: "LY",
+        MAD: "MA",
+        MDL: "MD",
+        MGA: "MG",
+        MKD: "MK",
+        MMK: "MM",
+        MNT: "MN",
+        MOP: "MO",
+        MRO: "MR",
+        MTL: "MT",
+        MUR: "MU",
+        MVR: "MV",
+        MWK: "MW",
+        MXN: "MX",
+        MYR: "MY",
+        MZN: "MZ",
+        NAD: "NA",
+        XPF: "NC",
+        NGN: "NG",
+        NIO: "NI",
+        NPR: "NP",
+        NZD: "NZ",
+        OMR: "OM",
+        PAB: "PA",
+        PEN: "PE",
+        PGK: "PG",
+        PHP: "PH",
+        PKR: "PK",
+        PLN: "PL",
+        PYG: "PY",
+        QAR: "QA",
+        RON: "RO",
+        RSD: "RS",
+        RUB: "RU",
+        RWF: "RW",
+        SAR: "SA",
+        SBD: "SB",
+        SCR: "SC",
+        SDG: "SD",
+        SEK: "SE",
+        SGD: "SG",
+        SKK: "SK",
+        SLL: "SL",
+        SOS: "SO",
+        SRD: "SR",
+        STD: "ST",
+        SVC: "SV",
+        SYP: "SY",
+        SZL: "SZ",
+        THB: "TH",
+        TJS: "TJ",
+        TMT: "TM",
+        TND: "TN",
+        TOP: "TO",
+        TRY: "TR",
+        TTD: "TT",
+        TWD: "TW",
+        TZS: "TZ",
+        UAH: "UA",
+        UGX: "UG",
+        USD: "US",
+        UYU: "UY",
+        UZS: "UZ",
+        VEF: "VE",
+        VND: "VN",
+        VUV: "VU",
+        YER: "YE",
+        ZAR: "ZA",
+        ZMK: "ZM",
+        ZWD: "ZW",
+      };
+      const baseUrl = "https://cdn.jsdelivr.net/gh/fawazahmed0/currency-api@1/latest/currencies/"
+      let fromCurr = document.querySelector(".from select");
+      let toCurr = document.querySelector(".to select");
+      const dropSelect = document.querySelectorAll(".dropdown select");
+      for (let select of dropSelect) {
+        for (const country in countryList) {
+            let newoption = document.createElement("option")
+            newoption.innerText=country;
+            newoption.value=country;
+            if(select.name==="from" && country==="USD"){
+                newoption.selected="selected";
+            } else if(select.name==="to" && country==="PKR"){
+                newoption.selected="selected";
+            }
+            // let newResult = document.getElementById("result");
+            // newResult.innerText=
+            select.append(newoption);
+      }
+      select.addEventListener("change", (e)=>{
+        updateFlag(e.target);
+      });
+        
+      }
+      const updateFlag=(element)=>{
+        let currCode = element.value
+        let countryCode = countryList[currCode]
+        let newSrc=`https://flagsapi.com/${countryCode}/flat/64.png`;
+        let img = element.parentElement.querySelector("img");
+        img.src = newSrc;
+      }
+      const btn = document.querySelector("form button");
+      btn.addEventListener("click", async (e)=>{
+        e.preventDefault();
+        let amount = document.querySelector(".amount input");
+        let amtVal= amount.value; 
+        if(amtVal<=0){
+            amtVal=1;
+            amount.innerText=amtVal;
+        }
+        let newBaseUrl = `${baseUrl}/${fromCurr.value.toLowerCase()}/${toCurr.value.toLowerCase()}.json`
+        let response = await fetch(newBaseUrl);
+        let data = await response.json();
+        console.log(data)
+        let rate = data[toCurr.value.toLowerCase()];
+        let result = Math.ceil(amtVal * rate);
+        document.querySelector("#result").innerText = `1 ${fromCurr.value} = ${Math.ceil(rate)} ${toCurr.value}`;
+        let msg = document.querySelector("#result1").innerText = `Exchange Rate: ${amtVal} ${fromCurr.value} = ${result} ${toCurr.value}`;
+      })
+    </script>
+  </body>
+</html>
